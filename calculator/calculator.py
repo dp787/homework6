@@ -1,3 +1,13 @@
+import logging
+
+# Configure logging settings
+logging.basicConfig(
+    level=logging.DEBUG,  # Set the minimum logging level
+    format='%(asctime)s - %(levelname)s - %(message)s',  # Define the log format
+    filename='app.log',  # Specify the log file name
+    filemode='a'  # Specify the file mode ('a' for append)
+)
+
 class Calculator:
     commands = {
         'add': 'Addition',
@@ -9,24 +19,34 @@ class Calculator:
 
     @staticmethod
     def add(a: float, b: float) -> float:
-        return a + b
+        result = a + b
+        logging.info(f"Performed addition: {a} + {b} = {result}")
+        return result
 
     @staticmethod
     def subtract(a: float, b: float) -> float:
-        return a - b
+        result = a - b
+        logging.info(f"Performed subtraction: {a} - {b} = {result}")
+        return result
 
     @staticmethod
     def multiply(a: float, b: float) -> float:
-        return a * b
+        result = a * b
+        logging.info(f"Performed multiplication: {a} * {b} = {result}")
+        return result
 
     @staticmethod
     def divide(a: float, b: float) -> float:
         if b == 0:
+            logging.error("Attempted to divide by zero.")
             raise ValueError("Cannot divide by zero.")
-        return a / b
+        result = a / b
+        logging.info(f"Performed division: {a} / {b} = {result}")
+        return result
 
     @classmethod
     def display_menu(cls):
+        logging.info("Displayed menu.")
         print("Available Commands:")
         for command, description in cls.commands.items():
             print(f"{command}: {description}")
@@ -34,6 +54,7 @@ class Calculator:
     @classmethod
     def execute_command(cls, command):
         if command not in cls.commands:
+            logging.error(f"Invalid command: {command}")
             raise ValueError("Invalid command")
 
         if command == 'add':
@@ -47,4 +68,5 @@ class Calculator:
         elif command == 'menu':
             cls.display_menu()
         else:
+            logging.error(f"Invalid command: {command}")
             raise ValueError("Invalid command")
